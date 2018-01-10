@@ -10,7 +10,8 @@
   "scripts": {
     "start": "npm server",
     "server": "node index.js",
-    "test": "mocha 'test/**/*.js'"
+    "test": "mocha 'test/**/*.js'",
+    "seed": "node models/seed.js"
   },
   "devDependencies": {
     "chai": "^4.1.2",
