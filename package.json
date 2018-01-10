@@ -1,0 +1,20 @@
+{
+  "name": "pub_quiz",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^4.13.9",
+    "ws": "^4.0.0"
+  },
+  "scripts": {
+    "start": "npm server",
+    "server": "node index.js",
+    "test": "mocha 'test/**/*.js'"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.1.0",
+    "sinon": "^4.1.4"
+  }
+}
