@@ -3,6 +3,7 @@ const app = express();
 const http = require('http');
 const url = require('url');
 const WebSocket = require('ws');
+const PORT = process.env.PORT || 5000;
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server })
@@ -39,7 +40,7 @@ wss.on('connection', function connection(ws, req){
   });
 });
 
-server.listen(5000, function(){
+server.listen(PORT, function(){
   console.log('server running on port 5000');
 });
 
