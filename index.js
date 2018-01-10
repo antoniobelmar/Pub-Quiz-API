@@ -42,3 +42,5 @@ wss.on('connection', function connection(ws, req){
 server.listen(5000, function(){
   console.log('server running on port 5000');
 });
+
+module.exports = app;
