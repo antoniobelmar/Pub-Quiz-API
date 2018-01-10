@@ -3,14 +3,14 @@ const app = express();
 const http = require('http');
 const url = require('url');
 const WebSocket = require('ws');
-import {quizController} from 'controllers/quizController';
+const quizController = require('./controllers/quizController');
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server })
 
 const Quiz = require('./models/quiz')
 
-app.get('/quiz/:id', quizController);
+app.get('/api/quiz/:id', quizController);
 
 wss.on('connection', function connection(ws, req){
   console.log('person joined');
