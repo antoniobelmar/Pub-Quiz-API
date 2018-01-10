@@ -1,13 +1,13 @@
-import {Quiz} from '../models/quiz'
+const Quiz = require('../models/quiz')
 
-function quizController(req, res, quizModel = Quiz) {
-  quizModel.findById(req.params.id, createJSON);
+function quizController(req, res, next, quizModel = Quiz) {
+  quizModel.findById(req.params.id, function(err, quiz) {
+    if (err) {
+      res.json({ error: "Not Found" })
+    } else {
+      res.json(quiz)
+    };
+  });
 };
 
-function createJSON(err, quiz) {
-  if (err) {
-    res.json({ error: "Not Found" })
-  } else {
-    res.json(quiz)
-  }
-}
+module.exports = quizController
