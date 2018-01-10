@@ -20,6 +20,12 @@ app.get('/api/quiz/:id', function(req, res) {
   });
 });
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+})
+
 wss.on('connection', function connection(ws, req){
   console.log('person joined');
   const location = url.parse(req.url, true);
