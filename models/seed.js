@@ -2,7 +2,6 @@ const Question = require('./question');
 const Quiz = require('./quiz');
 const mongoose = require('mongoose');
 
-const conn = mongoose.connect('mongodb://localhost:27017/pub-quiz-development');
 mongoose.connection.on('open', function() {
 
   conn.connection.db.dropDatabase();
