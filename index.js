@@ -9,6 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server })
+let leaderQuestionNumber;
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -18,12 +19,24 @@ app.use(function(req, res, next) {
 
 app.get('/api/quiz/:id', quizController);
 
+
 wss.on('connection', function connection(ws, req){
   console.log('person joined');
+
+  if (leaderQuestionNumber != undefined) {
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(leaderQuestionNumber);
+      };
+    });
+  }
   const location = url.parse(req.url, true);
   ws.identifier = wss.clients.size;
 
   ws.on('message', function incoming(message) {
+    if (ws.identifier == 1) {
+      leaderQuestionNumber = message;
+    }
 
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
