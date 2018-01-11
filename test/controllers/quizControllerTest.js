@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
-const quizController = require('../../controllers/quizController');
+const getQuiz = require('../../controllers/quiz/getQuiz');
 const sinon = require('sinon');
 
-describe('quizController', function(){
+describe('getQuiz', function(){
   var request, res, quizModel;
 
   beforeEach(function(){
@@ -19,7 +19,7 @@ describe('quizController', function(){
         callback(true);
       };
       error = { error: "Not Found" };
-      quizController(request, res, null, quizModel);
+      getQuiz(request, res, null, quizModel);
     });
 
     it('should send json error message', function() {
@@ -32,7 +32,7 @@ describe('quizController', function(){
       quizModel.findById = function(id, callback) {
         callback(false, 5);
       };
-      quizController(request, res, null, quizModel);
+      getQuiz(request, res, null, quizModel);
     });
 
     it('should send json', function() {
