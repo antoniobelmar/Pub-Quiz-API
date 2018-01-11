@@ -1,20 +1,11 @@
-const express = require('express');
 const http = require('http');
 const url = require('url');
 const WebSocket = require('ws');
+const app = require('./app');
 
-const app = express();
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server })
-
-// middlewares
-
-app.use(require('./middlewares/headers'));
-
-// routes
-
-app.use('/quiz', require('./controllers/quiz'));
+const wss = new WebSocket.Server({ server });
 
 // web sockets
 
@@ -43,5 +34,3 @@ wss.on('connection', function connection(ws, req){
 server.listen(PORT, function(){
   console.log('server running on port 5000');
 });
-
-module.exports = app;
