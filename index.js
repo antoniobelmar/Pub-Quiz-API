@@ -38,10 +38,10 @@ wss.on('connection', function connection(ws, req){
               client.send(jsonMessage.question);
             };
           };
-            if(wss.clients.size === scores.length){
-              client.send(JSON.stringify(scores))
-            };
+          if(wss.clients.size === scores.length){
+            client.send(JSON.stringify(scores))
           };
+        };
       });
   });
 
