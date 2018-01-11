@@ -31,18 +31,23 @@ wss.on('connection', function connection(ws, req){
     if(jsonMessage.type == 'score'){
       scores.push(jsonMessage)
     };
-      wss.clients.forEach(function each(client) {
-        if (client.readyState === WebSocket.OPEN) {
-          if(jsonMessage.type == 'question'){
-            if (ws.identifier == 1) {
-              client.send(jsonMessage.question);
-            };
-          };
-          if(wss.clients.size === scores.length){
-            client.send(JSON.stringify(scores))
+    console.log(scores.length)
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        if(jsonMessage.type == 'question'){
+          if (ws.identifier == 1) {
+            client.send(JSON.stringify(jsonMessage));
           };
         };
-      });
+      };
+    });
+    if(wss.clients.size === scores.length){
+      wss.clients.forEach(function each(client) {
+        console.log('message sent')
+        client.send(JSON.stringify(scores))
+      })
+    scores = []
+    };
   });
 
 
