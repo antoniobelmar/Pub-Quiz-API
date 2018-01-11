@@ -1,6 +1,6 @@
-const Quiz = require('../models/quiz')
+const Quiz = require('../../models/quiz');
 
-function quizController(req, res, next, quizModel = Quiz) {
+function getQuiz(req, res, next, quizModel = Quiz) {
   quizModel.findById(req.params.id, function(err, quiz) {
     if (err) {
       res.json({ error: "Not Found" })
@@ -10,4 +10,4 @@ function quizController(req, res, next, quizModel = Quiz) {
   });
 };
 
-module.exports = quizController
+module.exports = getQuiz;
