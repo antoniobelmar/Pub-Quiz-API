@@ -4,7 +4,7 @@ const questionSchema = mongoose.Schema({
   type: String,
   text: String,
   options: [ String ],
-  answer: [ Number ]
+  answer: [ String ]
 });
 
 const Question = mongoose.model('Question', questionSchema);
