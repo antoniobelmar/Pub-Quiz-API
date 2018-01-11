@@ -22,7 +22,6 @@ app.get('/api/quiz/:id', quizController);
 
 wss.on('connection', function connection(ws, req){
   console.log('person joined');
-
   if (leaderQuestionNumber != undefined) {
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
@@ -45,6 +44,13 @@ wss.on('connection', function connection(ws, req){
         };
       };
     });
+  });
+
+  ws.on('close', function close() {
+    if (wss.clients.size === 0) {
+      leaderQuestionNumber = undefined;
+      console.log('everyone is gone');
+    }
   });
 
   ws.on('error', function(error) {
