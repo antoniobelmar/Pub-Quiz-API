@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const getQuiz = require('../../controllers/quiz/getQuiz');
+const getQuiz = require('../../controllers/quizActions/getQuiz');
 const sinon = require('sinon');
 
 describe('getQuiz', function(){
