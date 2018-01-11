@@ -19,20 +19,32 @@ app.get('/api/quiz/:id', function(req, res) {
   });
 });
 
+var scores = []
+
 wss.on('connection', function connection(ws, req){
   console.log('person joined');
   const location = url.parse(req.url, true);
   ws.identifier = wss.clients.size;
 
   ws.on('message', function incoming(message) {
-    wss.clients.forEach(function each(client) {
-      if (client.readyState === WebSocket.OPEN) {
-        if (ws.identifier == 1) {
-          client.send(message);
-        };
-      };
-    });
+    jsonMessage = JSON.parse(message)
+    if(jsonMessage.type == 'score'){
+      scores.push(jsonMessage)
+    };
+      wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+          if(jsonMessage.type == 'question'){
+            if (ws.identifier == 1) {
+              client.send(jsonMessage.question);
+            };
+          };
+            if(wss.clients.size === scores.length){
+              client.send(JSON.stringify(scores))
+            };
+          };
+      });
   });
+
 
   ws.on('error', function(error) {
     console.log('one person has left');
