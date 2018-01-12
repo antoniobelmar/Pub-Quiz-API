@@ -15,11 +15,11 @@ wss.on('connection', function connection(ws, req){
   if (leaderQuestionNumber != undefined) {
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
-        client.send(leaderQuestionNumber);
+        client.send(JSON.stringify(leaderQuestionNumber));
       };
     });
   };
-  
+
   const location = url.parse(req.url, true);
   ws.identifier = wss.clients.size;
 
