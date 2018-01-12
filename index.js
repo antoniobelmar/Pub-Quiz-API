@@ -35,7 +35,7 @@ wss.on('connection', function connection(ws, req){
 
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
-        if(jsonMessage.type == 'question'){
+        if(jsonMessage.type == 'question' || jsonMessage.type == 'endQuiz'){
           if (ws.identifier == 1) {
             client.send(JSON.stringify(jsonMessage));
           };
@@ -45,7 +45,7 @@ wss.on('connection', function connection(ws, req){
     if(wss.clients.size === scores.length){
       wss.clients.forEach(function each(client) {
         console.log('message sent')
-        client.send(JSON.stringify(scores))
+        client.send(JSON.stringify({ type: 'scores', scores: scores }));
       })
     scores = []
     };
