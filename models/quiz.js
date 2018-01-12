@@ -1,4 +1,4 @@
-const mongoose = require('./setup').mongoose
+const mongoose = require('mongoose');
 const Question = require('./question');
 
 const quizSchema = mongoose.Schema({  // SHAPE
@@ -6,6 +6,4 @@ const quizSchema = mongoose.Schema({  // SHAPE
     questions: []
 });
 
-const Quiz = mongoose.model('quiz', quizSchema); // Collection (table)
-
-module.exports = Quiz
+module.exports = mongoose.model('quiz', quizSchema);
