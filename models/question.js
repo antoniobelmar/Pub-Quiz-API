@@ -1,12 +1,10 @@
-const mongoose = require('./setup').mongoose;
+const mongoose = require('mongoose');
 
 const questionSchema = mongoose.Schema({
   type: String,
   text: String,
   options: [ String ],
-  answer: [ Number ]
+  answer: [ String ]
 });
 
-const Question = mongoose.model('Question', questionSchema);
-
-module.exports = Question
+module.exports = mongoose.model('Question', questionSchema);

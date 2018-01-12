@@ -15,4 +15,4 @@ mongoose.connect(DB_URL, { useMongoClient: true }, function(error) {
   };
 });
 
-module.exports.mongoose = mongoose;
+module.exports = mongoose;
