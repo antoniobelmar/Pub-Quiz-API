@@ -1,9 +1,12 @@
 const Quiz = require('../../models/quiz');
 
-function createQuiz(res, req, quizModel = Quiz ){
-  console.log(req)
-  // const newQuizInfo = JSON.parse(req.)
-    var quiz = new Quiz({})
+function createQuiz(req, res, quizModel = Quiz ){
+  var quiz = new Quiz({name: req.body.QuizName})
+  quiz.save(function (err, quiz) {
+    if (err) {
+      console.error('Could not save');
+    };
+  });
 }
 
 module.exports = createQuiz;
