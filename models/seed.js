@@ -1,10 +1,10 @@
 const Question = require('./question');
 const Quiz = require('./quiz');
-const mongoose = require('mongoose');
+const mongoose = require('../db');
 
 mongoose.connection.on('open', function() {
 
-  conn.connection.db.dropDatabase();
+  mongoose.connection.db.dropDatabase();
 
   var questions = [
     new Question({
