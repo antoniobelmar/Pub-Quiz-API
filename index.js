@@ -28,7 +28,6 @@ wss.on('connection', function connection(ws, req){
     if(jsonMessage.type == 'score'){
       scores.push(jsonMessage)
     };
-    console.log(scores.length)
     if (jsonMessage.type == 'question' && ws.identifier == 1) {
       leaderQuestionNumber = jsonMessage;
     };
