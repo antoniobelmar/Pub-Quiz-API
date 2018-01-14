@@ -6,7 +6,7 @@ mongoose.connection.on('open', function() {
 
   mongoose.connection.db.dropDatabase();
 
-  var questions = [
+  const questions = [
     new Question({
       type: 'MultipleChoice',
       text: 'What is the capital of the France?',
@@ -27,6 +27,8 @@ mongoose.connection.on('open', function() {
   multipleChoiceQuiz.save(function (err, quiz) {
     if (err) {
       console.error('Could not save');
+    } else {
+      console.log(quiz)
     };
   });
 
