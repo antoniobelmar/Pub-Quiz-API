@@ -8,17 +8,17 @@ mongoose.connection.on('open', function() {
 
   var questions = [
     new Question({
-      _type: 'MultipleChoice',
-      _text: 'What is the capital of the France?',
-      _options: [{text: 'Rome'}, {text: 'Paris'}, {text: 'Madrid'}],
-      _answer: [{text: 'Madrid'}]
+      type: 'MultipleChoice',
+      text: 'What is the capital of the France?',
+      options: [{text: 'Rome'}, {text: 'Paris'}, {text: 'Madrid'}],
+      answer: [{text: 'Madrid'}]
     }),
 
     new Question({
-      _type: 'MultipleChoice',
-      _text: 'What is the favourite food of Theo?',
-      _options: [{text: 'Chinese'}, {text: 'Turnips'}, {text: 'White House'}],
-      _answer: [{text: 'White House'}]
+      type: 'MultipleChoice',
+      text: 'What is the favourite food of Theo?',
+      options: [{text: 'Chinese'}, {text: 'Turnips'}, {text: 'White House'}],
+      answer: [{text: 'White House'}]
     })
   ]
 
