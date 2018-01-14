@@ -1,5 +1,6 @@
 const Question = require('./question');
 const Quiz = require('./quiz');
+const Option = require('./option');
 const mongoose = require('../db');
 
 mongoose.connection.on('open', function() {
@@ -10,14 +11,22 @@ mongoose.connection.on('open', function() {
     new Question({
       type: 'MultipleChoice',
       text: 'What is the capital of the France?',
-      options: [{text: 'Rome'}, {text: 'Paris'}, {text: 'Madrid'}],
+      options: [
+        new Option({text: 'Rome'}),
+        new Option({text: 'Paris'}),
+        new Option({text: 'Madrid'})
+      ],
       answer: [{text: 'Madrid'}]
     }),
 
     new Question({
       type: 'MultipleChoice',
       text: 'What is the favourite food of Theo?',
-      options: [{text: 'Chinese'}, {text: 'Turnips'}, {text: 'White House'}],
+      options: [
+        new Option({text: 'Chinese'}),
+        new Option({text: 'Turnips'}),
+        new Option({text: 'White House'})
+      ],
       answer: [{text: 'White House'}]
     })
   ]
