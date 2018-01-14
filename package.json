@@ -9,8 +9,7 @@
     "ws": "^4.0.0"
   },
   "scripts": {
-    "start": "npm server",
-    "server": "node index.js",
+    "start": "node index.js",
     "test": "./node_modules/.bin/mocha 'test/**/*.js'",
     "seed": "node models/seed.js"
   },
