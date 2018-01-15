@@ -8,7 +8,7 @@ describe('Player', function() {
   let player, ws;
 
   beforeEach(function() {
-    ws = sinon.spy();
+    ws = { send: sinon.spy() };
     player = new playerModule.Player(ws);
     player._score = 5;
   });
@@ -19,13 +19,46 @@ describe('Player', function() {
     });
   });
 
-  describe('#addPoint', function() {
+  describe('#score (set)', function() {
     beforeEach(function() {
-      player.addPoint();
+      player.score = 6;
     });
 
-    it('increments score', function() {
+    it('sets score', function() {
       expect(player._score).to.equal(6);
+    });
+  });
+
+  describe('#ws (get)', function() {
+    it('returns _ws', function() {
+      expect(player.ws).to.equal(ws);
+    });
+  });
+
+  describe('#send', function() {
+    beforeEach(function() {
+      player._ws.OPEN = 1;
+    });
+
+    describe('when connected', function() {
+      beforeEach(function() {
+        player._ws.readyState = 1;
+        player.send('msg');
+      });
+
+      it('sends message via web socket', function() {
+        sinon.assert.calledWith(ws.send, 'msg');
+      });
+    });
+
+    describe('when connected', function() {
+      beforeEach(function() {
+        player._ws.readyState = 2;
+      });
+
+      it('sends message via web socket', function() {
+        expect(function() { player.send('msg') }).to.throw(Error);
+      });
     });
   });
 });
