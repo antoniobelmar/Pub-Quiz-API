@@ -17,7 +17,7 @@ function headers(req, res, next) {
     //respond with 200
     console.log('-------------------');
     console.log('AT OPTIONS REQUEST');
-    // res.send(200);
+    res.send(200);
   }
   else {
   //move on
