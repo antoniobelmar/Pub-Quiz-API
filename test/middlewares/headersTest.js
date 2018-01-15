@@ -69,5 +69,9 @@ describe('middleware: headers', function(){
     it('sends a 200 response with headers', function() {
       expect(res.writeHead.calledWith(200, headersObject)).to.be.true;
     })
+
+    it('end is called on response', function() {
+      expect(res.end.called).to.be.true;
+    })
   })
 });
