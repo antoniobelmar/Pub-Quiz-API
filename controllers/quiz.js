@@ -9,5 +9,8 @@ const router = express.Router();
 router.get('/', getAllQuizzes);
 router.get('/:id', getQuiz);
 router.post('/', createQuiz);
+router.delete('/:id', function(req,res){
+  console.log(req.params.id)
+})
 
 module.exports = router;
