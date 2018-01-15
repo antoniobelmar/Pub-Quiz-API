@@ -25,6 +25,17 @@ describe('middleware: headers', function(){
     });
   });
 
+  describe('when setting methods', function() {
+    beforeEach(function() {
+      key = "Access-Control-Allow-Methods";
+      value = "GET, PUT, POST, DELETE, OPTIONS";
+    });
+
+    it('uses correct values', function() {
+      expect(res.header.calledWith(key, value)).to.be.true;
+    });
+  });
+
   describe('when setting headers', function() {
     beforeEach(function() {
       key = "Access-Control-Allow-Headers";
