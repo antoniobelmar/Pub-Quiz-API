@@ -100,20 +100,32 @@ describe('quizController', function() {
   })
 
   describe('deleteQuiz', function() {
-    beforeEach(function() {
-      sinon.spy(console, "log");
-      quizModel.findByIdAndRemove = function(query, callback) {
-        callback(true);
-      };
-      deleteQuiz(request, res, null, quizModel);
-    })
+    describe('when quiz does not exist', function() {
+      beforeEach(function() {
+        sinon.spy(console, "log");
+        quizModel.findByIdAndRemove = function(query, callback) {
+          callback(true);
+        };
+        deleteQuiz(request, res, null, quizModel);
+      });
 
-    afterEach(function() {
-      console.log.restore();
-    })
+      it('should say quiz not found if quiz does not exist', function() {
+        expect(console.log.calledWith('Quiz not found')).to.be.true;
+      });
+    });
 
-    it('should say quiz not found if quiz does not exist', function() {
-      expect(console.log.calledWith('Quiz not found')).to.be.true;
-    })
-  })
-})
+    describe('when quiz exists', function() {
+      beforeEach(function() {
+        res = { send: sinon.spy() };
+        quizModel.findByIdAndRemove = function(query, callback) {
+          callback(false, 'deletedQuiz');
+        };
+        deleteQuiz(request, res, null, quizModel);
+      });
+
+      it('should send a status code of 200', function() {
+        expect(res.send.calledWith(200)).to.be.true;
+      })
+    });
+  });
+});
