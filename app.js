@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 
 // routes
 
+
 app.use('/quiz', require('./controllers/quiz'));
 
 module.exports = app;

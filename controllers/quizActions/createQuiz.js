@@ -24,6 +24,7 @@ function createQuiz(req, res, quizModel = Quiz ) {
       console.error('Could not save');
     };
   });
+  res.send(200);
 }
 
 module.exports = createQuiz;
