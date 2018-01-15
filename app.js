@@ -9,6 +9,7 @@ const app = express();
 
 // app.use(require('./middlewares/headers'));
 app.use(cors());
+app.options('*', cors());
 app.use(bodyParser.json());
 
 // routes
