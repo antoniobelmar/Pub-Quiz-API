@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
-const getQuiz = require('../../controllers/quizActions/getQuiz');
-const getAllQuizzes = require('../../controllers/quizActions/getAllQuizzes');
+const Get = require('../../controllers/quizActions/get');
+const Index = require('../../controllers/quizActions/index');
 const sinon = require('sinon');
 
 describe('quizController', function() {
@@ -12,7 +12,7 @@ describe('quizController', function() {
     res = { json: sinon.spy() };
   });
 
-  describe('getQuiz', function(){
+  describe('Get', function(){
     describe('when error is raised', function() {
       let error;
 
@@ -21,7 +21,7 @@ describe('quizController', function() {
           callback(true);
         };
         error = { error: "Not Found" };
-        getQuiz(request, res, null, quizModel);
+        Get(request, res, null, quizModel);
       });
 
       it('should send json error message', function() {
@@ -34,7 +34,7 @@ describe('quizController', function() {
         quizModel.findById = function(id, callback) {
           callback(false, 5);
         };
-        getQuiz(request, res, null, quizModel);
+        Get(request, res, null, quizModel);
       });
 
       it('should send json', function() {
@@ -43,7 +43,7 @@ describe('quizController', function() {
     });
   });
 
-  describe('getAllQuizzes', function() {
+  describe('Index', function() {
     describe('when error is raised', function() {
       let error;
 
@@ -52,7 +52,7 @@ describe('quizController', function() {
           callback(true);
         };
         error = { error: "Not Found" };
-        getAllQuizzes(request, res, null, quizModel);
+        Index(request, res, null, quizModel);
       });
 
       it('should send json error message', function() {
@@ -65,7 +65,7 @@ describe('quizController', function() {
         quizModel.find = function(query, callback) {
           callback(false, 5);
         };
-        getAllQuizzes(request, res, null, quizModel);
+        Index(request, res, null, quizModel);
       });
 
       it('should send json', function() {

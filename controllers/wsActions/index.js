@@ -4,7 +4,7 @@ const Party = require('./helpers/party');
 
 function getOnOpen(ws, parties) {
   return function onOpen() {
-    let url = message.originalUrl;
+    let url = ws.url;
     if (parties[url]) {
       parties[url].addPlayer(ws);
     } else {
@@ -16,16 +16,28 @@ function getOnOpen(ws, parties) {
 };
 
 function getOnMessage(ws, parties) {
-  let party = parties[message.originalUrl];
 
   return function onMessage(message) {
+    let party = parties[ws.url];
     let data = JSON.parse(message.data);
+
     switch (data.type) {
       case 'question':
       case 'endQuiz':
-        break;
+        if (!party.hasLeader()) {
+          party.setLeader(ws);
+        } else if (party.isLeader(ws)) {
+          party.broadcast(data);
+        };
+      break;
       case 'score':
-        break;
+        party.setTimeout();
+        party.setScore(ws, data);
+      break;
+      case 'endAll':
+        let index = parties.indexOf(party);
+        parties.splice(index, 1);
+      break;
     };
   };
 };
