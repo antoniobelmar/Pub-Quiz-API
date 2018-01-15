@@ -1,6 +1,7 @@
 const expect = require('chai').expect;
 const getQuiz = require('../../controllers/quizActions/getQuiz');
 const getAllQuizzes = require('../../controllers/quizActions/getAllQuizzes');
+const createQuiz = require('../../controllers/quizActions/createQuiz');
 const sinon = require('sinon');
 
 describe('quizController', function() {
@@ -60,7 +61,7 @@ describe('quizController', function() {
       });
     });
 
-    describe('when quiz is found', function() {
+    describe('when quizzes are found', function() {
       beforeEach(function() {
         quizModel.find = function(query, callback) {
           callback(false, 5);
@@ -72,5 +73,27 @@ describe('quizController', function() {
         expect(res.json.calledWith(5)).to.be.true;
       });
     });
+  })
+
+  describe('createQuiz', function() {
+    let questionsArray, optionsArray;
+    optionsArray = [ { _text: 'optionOne' } ];
+    questionsArray = [ {
+      _type: 'Multiple choice',
+      _text: 'Question?',
+      _options: optionsArray,
+      _answer: 'Answer'
+    } ];
+    describe('when quiz is created', function() {
+      beforeEach(function() {
+        request.body = { questions: questionsArray };
+        res = { send: sinon.spy() };
+        createQuiz(request, res, quizModel);
+      })
+
+      it('should send 200 OK', function() {
+        expect(res.send.called).to.be.true;
+      })
+    })
   })
 })
