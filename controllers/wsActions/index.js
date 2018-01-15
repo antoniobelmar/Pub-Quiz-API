@@ -1,29 +1,40 @@
 'use strict';
 
-function getOnOpen(ws) {
+const Party = require('./helpers/party');
+
+function getOnOpen(ws, parties) {
   return function onOpen() {
-    ws.send('open!');
+    let url = message.originalUrl;
+    if (parties[url]) {
+      parties[url].addPlayer(ws);
+    } else {
+      let party = new Party(url);
+      party.addPlayer(ws);
+      parties[url] = party;
+    };
   };
 };
 
-function getOnMessage(ws) {
-  let counts = {};
+function getOnMessage(ws, parties) {
+  let party = parties[message.originalUrl];
 
   return function onMessage(message) {
-    let url = message.originalUrl;
-    if (counts[url]) {
-      counts[url] += 1;
-    } else {
-      counts[url] = 1;
+    let data = JSON.parse(message.data);
+    switch (data.type) {
+      case 'question':
+      case 'endQuiz':
+        break;
+      case 'score':
+        break;
     };
-    ws.send(counts[url] + ' ' + message);
   };
 };
 
 function wsConnection(ws, req) {
-  console.log('connection request');
-  ws.on('open', getOnOpen(ws));
+  let parties = [];
+  ws.on('open', getOnOpen(ws, parties));
   ws.on('message', getOnMessage(ws));
 };
 
 module.exports = wsConnection;
+
