@@ -3,6 +3,9 @@ const Question = require('../../models/question');
 const Option = require('../../models/option');
 
 function createQuiz(req, res, quizModel = Quiz ) {
+  console.log('request Body');
+  console.log('-----------------------');
+  console.log(req);
   let questionsArray = [];
   req.body.questions.forEach(function(question) {
     let optionsArray = [];
