@@ -9,7 +9,13 @@ describe('api route', function() {
     mongoose.disconnect();
   });
 
-  it('should return Ok', function(done) {
+  it('should return Ok when requesting all quizzes', function(done) {
+    supertest(app)
+    .get('/quiz')
+    .expect(200, done);
+  });
+
+  it('should return Ok when requesting one quiz', function(done) {
     supertest(app)
     .get('/quiz/1')
     .expect(200, done);
@@ -20,7 +26,7 @@ describe('api route', function() {
       .get('/quiz/1')
       .expect(200)
       .end(function(err, response) {
-        assert.ok(JSON.stringify(response.body) === '{"error":"Not Found"}') 
+        assert.ok(JSON.stringify(response.body) === '{"error":"Not Found"}')
         return done();
       });
   });
@@ -40,5 +46,3 @@ describe('api route', function() {
     });
   });
 });
-
-
