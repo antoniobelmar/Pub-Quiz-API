@@ -52,4 +52,22 @@ describe('middleware: headers', function(){
       expect(next.called).to.be.true;
     });
   });
+
+  describe('when the request method is options', function( ){
+    let headersObject = {};
+    beforeEach(function() {
+      res = { header: sinon.spy(), writeHead: sinon.spy(), end: sinon.spy() };
+      req = { method: 'OPTIONS' };
+      headersObject["Access-Control-Allow-Origin"] = "*";
+      headersObject["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
+      headersObject["Access-Control-Allow-Credentials"] = false;
+      headersObject["Access-Control-Max-Age"] = '86400';
+      headersObject["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept";
+      headers(req, res, next);
+    })
+
+    it('sends a 200 response with headers', function() {
+      expect(res.writeHead.calledWith(200, headersObject)).to.be.true;
+    })
+  })
 });
