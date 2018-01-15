@@ -2,6 +2,7 @@ const expect = require('chai').expect;
 const getQuiz = require('../../controllers/quizActions/getQuiz');
 const getAllQuizzes = require('../../controllers/quizActions/getAllQuizzes');
 const createQuiz = require('../../controllers/quizActions/createQuiz');
+const deleteQuiz = require('../../controllers/quizActions/deleteQuiz');
 const sinon = require('sinon');
 
 describe('quizController', function() {
@@ -84,6 +85,7 @@ describe('quizController', function() {
       _options: optionsArray,
       _answer: 'Answer'
     } ];
+
     describe('when quiz is created', function() {
       beforeEach(function() {
         request.body = { questions: questionsArray };
@@ -94,6 +96,24 @@ describe('quizController', function() {
       it('should send 200 OK', function() {
         expect(res.send.called).to.be.true;
       })
+    })
+  })
+
+  describe('deleteQuiz', function() {
+    beforeEach(function() {
+      sinon.spy(console, "log");
+      quizModel.findByIdAndRemove = function(query, callback) {
+        callback(true);
+      };
+      deleteQuiz(request, res, null, quizModel);
+    })
+
+    afterEach(function() {
+      console.log.restore();
+    })
+
+    it('should say quiz not found if quiz does not exist', function() {
+      expect(console.log.calledWith('Quiz not found')).to.be.true;
     })
   })
 })
