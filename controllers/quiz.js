@@ -1,15 +1,16 @@
-const express = require('express');
-const getAllQuizzes = require('./quizActions/getAllQuizzes');
-const getQuiz = require('./quizActions/getQuiz');
-const createQuiz = require('./quizActions/createQuiz');
-const deleteQuiz = require('./quizActions/deleteQuiz');
+'use strict';
 
+const express = require('express');
+const Get = require('./quizActions/get');
+const Index = require('./quizActions/index');
+const Post = require('./quizActions/post');
+const Delete = require('./quizActions/delete');
 
 const router = express.Router();
 
-router.get('/', getAllQuizzes);
-router.get('/:id', getQuiz);
-router.post('/', createQuiz);
-router.delete('/:id', deleteQuiz);
+router.get('/', Index);
+router.get('/:id', Get);
+router.post('/', Post);
+router.delete('/:id', Delete);
 
 module.exports = router;
