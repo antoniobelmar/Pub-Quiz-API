@@ -2,7 +2,12 @@ const Game = require('../../models/game');
 
 function newModel(model) {
   let record = new model({ isFinished: false });
-  return record.id;
+  record.save(function(err, record) {
+    if (err) {
+      console.log(err)
+    }
+  })
+  return record.id
 };
 
 function getAssign(res, model) {
