@@ -4,5 +4,15 @@ const gameSchema = mongoose.Schema({
   isFinished: Boolean
 });
 
-module.exports = mongoose.model('Game', gameSchema);
+gameSchema.statics.finishQuiz = function(wsId) {
+  return this.model('Game').findById(wsId, function(err, game) {
+    game.isFinished = true
+    game.save(function(err) {
+      if (err) {
+        console.log(err)
+      }
+    })
+  })
+}
 
+module.exports = mongoose.model('Game', gameSchema);
