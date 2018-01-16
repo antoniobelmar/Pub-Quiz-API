@@ -1,9 +1,11 @@
 const expect = require('chai').expect;
-const getQuiz = require('../../controllers/quizActions/getQuiz');
-const getAllQuizzes = require('../../controllers/quizActions/getAllQuizzes');
-const createQuiz = require('../../controllers/quizActions/createQuiz');
-const deleteQuiz = require('../../controllers/quizActions/deleteQuiz');
 const sinon = require('sinon');
+
+const Get = require('../../controllers/quizActions/get');
+const Index = require('../../controllers/quizActions/index');
+const Post = require('../../controllers/quizActions/post');
+const Delete = require('../../controllers/quizActions/delete');
+
 
 describe('quizController', function() {
   var request, res, quizModel;
@@ -14,7 +16,7 @@ describe('quizController', function() {
     res = { json: sinon.spy() };
   });
 
-  describe('getQuiz', function(){
+  describe('Get', function(){
     describe('when error is raised', function() {
       let error;
 
@@ -23,7 +25,7 @@ describe('quizController', function() {
           callback(true);
         };
         error = { error: "Not Found" };
-        getQuiz(request, res, null, quizModel);
+        Get(request, res, null, quizModel);
       });
 
       it('should send json error message', function() {
@@ -36,7 +38,7 @@ describe('quizController', function() {
         quizModel.findById = function(id, callback) {
           callback(false, 5);
         };
-        getQuiz(request, res, null, quizModel);
+        Get(request, res, null, quizModel);
       });
 
       it('should send json', function() {
@@ -45,7 +47,7 @@ describe('quizController', function() {
     });
   });
 
-  describe('getAllQuizzes', function() {
+  describe('Index', function() {
     describe('when error is raised', function() {
       let error;
 
@@ -54,7 +56,7 @@ describe('quizController', function() {
           callback(true);
         };
         error = { error: "Not Found" };
-        getAllQuizzes(request, res, null, quizModel);
+        Index(request, res, null, quizModel);
       });
 
       it('should send json error message', function() {
@@ -67,7 +69,7 @@ describe('quizController', function() {
         quizModel.find = function(query, callback) {
           callback(false, 5);
         };
-        getAllQuizzes(request, res, null, quizModel);
+        Index(request, res, null, quizModel);
       });
 
       it('should send json', function() {
@@ -76,7 +78,7 @@ describe('quizController', function() {
     });
   })
 
-  describe('createQuiz', function() {
+  describe('Post', function() {
     let questionsArray, optionsArray;
     optionsArray = [ { _text: 'optionOne' } ];
     questionsArray = [ {
@@ -90,7 +92,7 @@ describe('quizController', function() {
       beforeEach(function() {
         request.body = { questions: questionsArray };
         res = { send: sinon.spy() };
-        createQuiz(request, res, quizModel);
+        Post(request, res, quizModel);
       })
 
       it('should send 200 OK', function() {
@@ -99,14 +101,14 @@ describe('quizController', function() {
     })
   })
 
-  describe('deleteQuiz', function() {
+  describe('Delete', function() {
     describe('when quiz does not exist', function() {
       beforeEach(function() {
         sinon.spy(console, "log");
         quizModel.findByIdAndRemove = function(query, callback) {
           callback(true);
         };
-        deleteQuiz(request, res, null, quizModel);
+        Delete(request, res, null, quizModel);
       });
 
       it('should say quiz not found if quiz does not exist', function() {
@@ -120,7 +122,7 @@ describe('quizController', function() {
         quizModel.findByIdAndRemove = function(query, callback) {
           callback(false, 'deletedQuiz');
         };
-        deleteQuiz(request, res, null, quizModel);
+        Delete(request, res, null, quizModel);
       });
 
       it('should send a status code of 200', function() {
