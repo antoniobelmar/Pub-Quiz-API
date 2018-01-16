@@ -15,4 +15,13 @@ gameSchema.statics.finishQuiz = function(wsId) {
   })
 }
 
+gameSchema.methods.startQuiz = function() {
+  this.isFinished = false
+  this.save(function(err) {
+    if(err) {
+      console.log(err)
+    }
+  })
+}
+
 module.exports = mongoose.model('Game', gameSchema);
