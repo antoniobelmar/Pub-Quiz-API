@@ -1,6 +1,6 @@
 'use strict';
 
-class Player { 
+class Player {
   constructor(ws) {
     this._ws = ws;
     this._score = 0;
@@ -19,7 +19,7 @@ class Player {
   };
 
   send(message, json_obj = JSON) {
-    
+
     if (this._isOpen()) {
       try {
         this._ws.send(json_obj.stringify(message));
@@ -27,13 +27,18 @@ class Player {
         console.error(error);
       };
     } else {
-      throw new Error('client disconnected'); 
+      throw new Error('client disconnected');
     };
   };
 
   _isOpen() {
     return this._ws.readyState === this._ws.OPEN;
   };
+
+  kill() {
+    this._ws.close()
+  }
+
 };
 
 function newPlayer(ws) {

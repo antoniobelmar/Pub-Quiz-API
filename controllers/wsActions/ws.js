@@ -24,8 +24,9 @@ function getOnMessage(ws, req) {
         party.setTimeout();
         party.setScore(ws, data);
       break;
-      case 'endAll':
+      case 'kill':
         parties.remove(party);
+        party.kill()
       break;
     };
   };
@@ -39,4 +40,3 @@ function wsConnection(ws, req) {
 };
 
 module.exports = wsConnection;
-
