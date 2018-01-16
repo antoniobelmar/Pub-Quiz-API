@@ -29,6 +29,10 @@ class Party {
     this._leader = ws;
   };
 
+  sendLeader() {
+    this._leader.send(JSON.stringify({type: 'Leader'}))
+  }
+
   hasLeader() {
     return this._leader !== undefined;
   };
