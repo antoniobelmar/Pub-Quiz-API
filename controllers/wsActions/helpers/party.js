@@ -72,10 +72,10 @@ class Party {
   };
 
   _makeScores(scores, json_obj = JSON) {
-    return json_obj.stringify({ 
+    return { 
       type: 'scores', 
       scores: this._players.map(function(p) { return p.score })
-    });
+    };
   };
 };
 
