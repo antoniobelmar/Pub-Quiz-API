@@ -15,6 +15,7 @@ function getAssign(res, model) {
     if (err) {
       console.error(err);
     } else if (record) {
+      record.startQuiz()
       res.json({ id: record.id });
     } else {
       res.json({ id: newModel(model) });
