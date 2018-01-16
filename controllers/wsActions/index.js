@@ -12,6 +12,7 @@ function getOnMessage(ws, req) {
 
     switch (data.type) {
       case 'here comes the leader':
+      case 'startQuiz':
       case 'question':
       case 'endQuiz':
         if (!party.hasLeader()) {
