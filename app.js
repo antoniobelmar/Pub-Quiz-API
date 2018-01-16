@@ -20,6 +20,6 @@ app.get('/', function(res, req) {
 });
 
 app.use('/quiz', require('./controllers/quiz'));
-app.use('/ws', require('./controllers/ws'));
+app.use('/play', require('./controllers/play'));
 
 module.exports = app;

@@ -72,9 +72,15 @@ class Party {
   };
 
   _makeScores(scores, json_obj = JSON) {
-    return json_obj.stringify({ 
-      type: 'scores', 
+    return {
+      type: 'scores',
       scores: this._players.map(function(p) { return p.score })
+    };
+  };
+
+  kill() {
+    this._players.forEach((player) => {
+      player.kill();
     });
   };
 };

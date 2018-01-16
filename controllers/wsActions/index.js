@@ -1,42 +1,30 @@
-'use strict';
+const Game = require('../../models/game');
 
-const partiesModule = require('./helpers/parties');
-let parties = new partiesModule.Parties();
+function newModel(model) {
+  let record = new model({ isFinished: false });
+  record.save(function(err, record) {
+    if (err) {
+      console.log(err)
+    }
+  })
+  return record.id
+};
 
-function getOnMessage(ws, req) {
-  return function onMessage(message) {
-    console.log('got message', message);
-    let party = parties.get(req.url);
-    console.log(party.url, party._players.length);
-    let data = JSON.parse(message);
-
-    switch (data.type) {
-      case 'question':
-      case 'endQuiz':
-        if (!party.hasLeader()) {
-          party.setLeader(ws);
-        };
-        if (party.isLeader(ws)) {
-          party.broadcast(data);
-        };
-      break;
-      case 'score':
-        party.setTimeout();
-        party.setScore(ws, data);
-      break;
-      case 'endAll':
-        parties.remove(party);
-      break;
+function getAssign(res, model) {
+  return function assign(err, record) {
+    if (err) {
+      console.error(err);
+    } else if (record) {
+      record.startQuiz()
+      res.json({ id: record.id });
+    } else {
+      res.json({ id: newModel(model) });
     };
   };
 };
 
-function wsConnection(ws, req) {
-  console.log('recieved request');
-  let party = parties.get(req.url);
-  party.addPlayer(ws);
-  ws.on('message', getOnMessage(ws, req));
+function index(req, res, next, model = Game) {
+  let id = model.where({ isFinished: true }).findOne(getAssign(res, model));
 };
 
-module.exports = wsConnection;
-
+module.exports = index;
