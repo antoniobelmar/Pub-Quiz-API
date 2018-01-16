@@ -81,6 +81,12 @@ class Party {
       scores: this._players.map(function(p) { return p.score })
     };
   };
+
+  kill() {
+    this._players.forEach((player) => {
+      player.kill();
+    });
+  };
 };
 
 function newParty(url) {
