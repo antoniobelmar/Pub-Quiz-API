@@ -7,7 +7,7 @@ function headers(req, res, next) {
 
   //intercepts OPTIONS method
   if ('OPTIONS' === req.method) {
-    var headers = {};
+    let headers = {};
     headers["Access-Control-Allow-Origin"] = "*";
     headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
     headers["Access-Control-Allow-Credentials"] = false;
