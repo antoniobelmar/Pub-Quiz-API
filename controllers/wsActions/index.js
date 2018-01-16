@@ -1,32 +1,22 @@
 'use strict';
 
-const Party = require('./helpers/party');
+const partiesModule = require('./helpers/parties');
+let parties = new partiesModule.Parties();
 
-function getOnOpen(ws, parties) {
-  return function onOpen() {
-    let url = ws.url;
-    if (parties[url]) {
-      parties[url].addPlayer(ws);
-    } else {
-      let party = new Party(url);
-      party.addPlayer(ws);
-      parties[url] = party;
-    };
-  };
-};
-
-function getOnMessage(ws, parties) {
-
+function getOnMessage(ws, req) {
   return function onMessage(message) {
-    let party = parties[ws.url];
-    let data = JSON.parse(message.data);
+    console.log('got message', message);
+    let party = parties.get(req.url);
+    console.log(party.url, party._players.length);
+    let data = JSON.parse(message);
 
     switch (data.type) {
       case 'question':
       case 'endQuiz':
         if (!party.hasLeader()) {
           party.setLeader(ws);
-        } else if (party.isLeader(ws)) {
+        };
+        if (party.isLeader(ws)) {
           party.broadcast(data);
         };
       break;
@@ -35,17 +25,17 @@ function getOnMessage(ws, parties) {
         party.setScore(ws, data);
       break;
       case 'endAll':
-        let index = parties.indexOf(party);
-        parties.splice(index, 1);
+        parties.remove(party);
       break;
     };
   };
 };
 
 function wsConnection(ws, req) {
-  let parties = [];
-  ws.on('open', getOnOpen(ws, parties));
-  ws.on('message', getOnMessage(ws));
+  console.log('recieved request');
+  let party = parties.get(req.url);
+  party.addPlayer(ws);
+  ws.on('message', getOnMessage(ws, req));
 };
 
 module.exports = wsConnection;

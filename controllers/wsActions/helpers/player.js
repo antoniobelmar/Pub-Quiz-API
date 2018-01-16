@@ -18,9 +18,14 @@ class Player {
     return this._ws;
   };
 
-  send(message) {
+  send(message, json_obj = JSON) {
+    
     if (this._isOpen()) {
-      this._ws.send(message);
+      try {
+        this._ws.send(json_obj.stringify(message));
+      } catch(error) {
+        console.error(error);
+      };
     } else {
       throw new Error('client disconnected'); 
     };

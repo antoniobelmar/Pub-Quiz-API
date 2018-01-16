@@ -8,6 +8,10 @@ class Party {
     this._players = [];
   };
 
+  get url() {
+    return this._url;
+  };
+
   getPlayer(ws) {
     let players = this._players;
     for (let i = 0; i < players.length; i++) {
@@ -42,12 +46,14 @@ class Party {
     this._players.forEach(this.getSend(message));
   };
 
-  broadcastScores() {
-    this.broadcast(this._makescores());
+  getBroadcastScores(self) {
+    return function broadcastScores() {
+      self.broadcast(self._makeScores());
+    };
   };
 
   setTimeout() {
-    setTimeout(this.broadcastScores, 5000);
+    setTimeout(this.getBroadcastScores(this), 3000);
   };
 
   getSend(message) {
@@ -55,20 +61,27 @@ class Party {
 
     return function send(player) {
       try {
+        console.log('sending', message);
         player.send(message);
       } catch(error) {
+        console.error('Error in sending message');
         let index = players.indexOf(player);
         players.splice(index, 1);
       };
     };
   };
 
-  _makeScores(scores, json_obj) {
+  _makeScores(scores, json_obj = JSON) {
     return json_obj.stringify({ 
       type: 'scores', 
-      scores: this._players.map((p) => { p.score });
+      scores: this._players.map(function(p) { return p.score })
     });
   };
 };
 
+function newParty(url) {
+  return new Party(url);
+};
+
 module.exports.Party = Party;
+module.exports.newParty = newParty;
