@@ -11,10 +11,12 @@ function getOnMessage(ws, req) {
     let data = JSON.parse(message);
 
     switch (data.type) {
+      case 'here comes the leader':
       case 'question':
       case 'endQuiz':
         if (!party.hasLeader()) {
           party.setLeader(ws);
+          party.sendLeader();
         };
         if (party.isLeader(ws)) {
           party.broadcast(data);
@@ -32,11 +34,10 @@ function getOnMessage(ws, req) {
 };
 
 function wsConnection(ws, req) {
-  console.log('recieved request');
+  console.log('received request');
   let party = parties.get(req.url);
   party.addPlayer(ws);
   ws.on('message', getOnMessage(ws, req));
 };
 
 module.exports = wsConnection;
-
