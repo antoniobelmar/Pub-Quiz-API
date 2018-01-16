@@ -23,15 +23,6 @@ function getAssign(res, model) {
   };
 };
 
-function wsConnection(ws, req) {
-  console.log('received request');
-  let party = parties.get(req.url);
-  party.addPlayer(ws);
-  ws.on('message', getOnMessage(ws, req));
-};
-
-module.exports = wsConnection;
-
 function index(req, res, next, model = Game) {
   let id = model.where({ isFinished: true }).findOne(getAssign(res, model));
 };

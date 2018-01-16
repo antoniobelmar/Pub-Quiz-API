@@ -11,10 +11,13 @@ function getOnMessage(ws, req, model = Game) {
     let data = JSON.parse(message);
 
     switch (data.type) {
-      case 'question':
-      case 'endQuiz':
+      case ‘here comes the leader’:
+      case ‘startQuiz’:
+      case ‘question’:
+      case ‘endQuiz’:
         if (!party.hasLeader()) {
           party.setLeader(ws);
+          party.sendLeader();
         };
         if (party.isLeader(ws)) {
           party.broadcast(data);
