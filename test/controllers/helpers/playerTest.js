@@ -5,7 +5,7 @@ const sinon = require('sinon');
 const playerModule = require('../../../controllers/wsActions/helpers/player');
 
 describe('Player', function() {
-  let player, ws;
+  let player, ws, json_obj;
 
   beforeEach(function() {
     ws = { send: sinon.spy() };
@@ -43,11 +43,16 @@ describe('Player', function() {
     describe('when connected', function() {
       beforeEach(function() {
         player._ws.readyState = 1;
-        player.send('msg');
+        json_obj = { stringify: sinon.stub().returns('json') };
+        player.send('msg', json_obj);
+      });
+
+      it('calls stringify on message', function() {
+        sinon.assert.calledWith(json_obj.stringify, 'msg');
       });
 
       it('sends message via web socket', function() {
-        sinon.assert.calledWith(ws.send, 'msg');
+        sinon.assert.calledWith(ws.send, 'json');
       });
     });
 
